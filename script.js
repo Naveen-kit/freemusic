@@ -74,4 +74,43 @@ document.querySelectorAll('.player').forEach(player => {
 
 
 
+document.querySelectorAll('.player').forEach(player => {
+    const audio = player.querySelector('.audio');
+    const playBtn = player.querySelector('.playPause');
+
+    playBtn.addEventListener('click', () => {
+        // Pause any other playing audio
+        document.querySelectorAll('.player .audio').forEach(a => {
+            if(a !== audio) {
+                a.pause();
+                a.closest('.player').querySelector('.playPause').classList.remove('glow');
+                a.closest('.player').querySelector('.playPause').textContent = '▶️';
+            }
+        });
+
+        // Toggle play/pause
+        if(audio.paused){
+            audio.play();
+            playBtn.textContent = '⏸️';
+            playBtn.classList.add('glow');
+        } else {
+            audio.pause();
+            playBtn.textContent = '▶️';
+            playBtn.classList.remove('glow');
+        }
+    });
+
+    // Remove glow when song ends
+    audio.addEventListener('ended', () => {
+        playBtn.textContent = '▶️';
+        playBtn.classList.remove('glow');
+    });
+});
+
+
+
+
+
+
+
 
