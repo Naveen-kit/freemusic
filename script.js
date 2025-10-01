@@ -10,26 +10,25 @@ document.querySelector('a[href="#songs"]').addEventListener('click', e => {
 
 
 
-const players = document.querySelectorAll('.player');
+// Track currently playing audio globally
+let currentAudio = null;
+let currentPlayBtn = null;
 
-let currentAudio = null;      // tracks currently playing audio
-let currentPlayBtn = null;    // tracks the button of currently playing audio
-
-players.forEach(player => {
+document.querySelectorAll('.player').forEach(player => {
     const audio = player.querySelector('.audio');
     const playBtn = player.querySelector('.playPause');
     const progress = player.querySelector('.progress');
     const time = player.querySelector('.time');
 
-    // Play/Pause button
+    // Play/Pause toggle
     playBtn.addEventListener('click', () => {
-        // If another audio is playing, pause it
+        // Pause any other audio
         if(currentAudio && currentAudio !== audio){
             currentAudio.pause();
             if(currentPlayBtn) currentPlayBtn.textContent = '▶️';
         }
 
-        // Toggle current audio
+        // Play or pause current audio
         if(audio.paused){
             audio.play();
             playBtn.textContent = '⏸️';
@@ -43,20 +42,23 @@ players.forEach(player => {
         }
     });
 
-    // Update progress bar and time
+    // Update progress bar & time
     audio.addEventListener('timeupdate', () => {
-        const percent = (audio.currentTime / audio.duration) * 100 || 0;
-        progress.value = percent;
-
+        if(audio.duration){
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progress.value = percent;
+        }
         let minutes = Math.floor(audio.currentTime / 60);
         let seconds = Math.floor(audio.currentTime % 60);
-        if(seconds < 10) seconds = '0'+seconds;
+        if(seconds < 10) seconds = '0' + seconds;
         time.textContent = `${minutes}:${seconds}`;
     });
 
-    // Seek audio
+    // Seek audio with slider
     progress.addEventListener('input', () => {
-        audio.currentTime = (progress.value / 100) * audio.duration;
+        if(audio.duration){
+            audio.currentTime = (progress.value / 100) * audio.duration;
+        }
     });
 
     // Reset when audio ends
@@ -67,15 +69,6 @@ players.forEach(player => {
         if(currentPlayBtn === playBtn) currentPlayBtn = null;
     });
 });
-
-
-
-
-
-
-
-
-
 
 
 
