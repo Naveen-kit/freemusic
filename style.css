@@ -255,3 +255,15 @@ footer {
     50% { text-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff; }
     100% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #00ffff; }
 }
+
+
+
+
+
+
+
+
+html {
+    scroll-behavior: smooth;
+}
+
