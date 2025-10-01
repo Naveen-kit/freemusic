@@ -267,3 +267,40 @@ html {
     scroll-behavior: smooth;
 }
 
+
+
+/* Play button base style */
+.player .controls button {
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px #ff00ff, 0 0 15px #00ffff;
+}
+
+/* Glow animation */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 10px #ff00ff, 0 0 15px #00ffff;
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 25px #ff00ff, 0 0 35px #00ffff;
+        transform: scale(1.2);
+    }
+    100% {
+        box-shadow: 0 0 10px #ff00ff, 0 0 15px #00ffff;
+        transform: scale(1);
+    }
+}
+
+/* Active glowing state */
+.player .controls button.glow {
+    animation: pulseGlow 1s infinite;
+}
+
+
+
