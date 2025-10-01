@@ -40,3 +40,75 @@ players.forEach(player => {
         progress.value = 0;
     });
 });
+
+
+
+const players = document.querySelectorAll('.player');
+
+players.forEach(player => {
+    const audio = player.querySelector('.audio');
+    const playBtn = player.querySelector('.playPause');
+    const progress = player.querySelector('.progress');
+    const time = player.querySelector('.time');
+
+    playBtn.addEventListener('click', () => {
+        // Pause all other audios
+        players.forEach(p => {
+            const a = p.querySelector('.audio');
+            const b = p.querySelector('.playPause');
+            if(a !== audio){
+                a.pause();
+                b.textContent = '▶️';
+            }
+        });
+
+        // Toggle current audio
+        if(audio.paused){
+            audio.play();
+            playBtn.textContent = '⏸️';
+        } else {
+            audio.pause();
+            playBtn.textContent = '▶️';
+        }
+    });
+
+    // Update progress
+    audio.addEventListener('timeupdate', () => {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progress.value = percent || 0;
+
+        let minutes = Math.floor(audio.currentTime / 60);
+        let seconds = Math.floor(audio.currentTime % 60);
+        if(seconds < 10) seconds = '0'+seconds;
+        time.textContent = `${minutes}:${seconds}`;
+    });
+
+    progress.addEventListener('input', () => {
+        audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+
+    audio.addEventListener('ended', () => {
+        playBtn.textContent = '▶️';
+        progress.value = 0;
+    });
+});
+
+
+
+
+document.querySelector('a[href="#songs"]').addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector('#songs').scrollIntoView({ behavior: 'smooth' });
+});
+
+
+
+
+
+
+
+
+
+
+
+
